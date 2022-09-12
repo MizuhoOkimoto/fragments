@@ -1,21 +1,22 @@
 # fragments
 Cloud Computing for Programmers (CCP555) - Fall 2022
+
 This is a back-end microservice using JavaScript.
 
 ## Setup outline
 
 ### npm Setup
 - ```$ npm init -y``` (the -y flag answers 'yes' to all questions)
-- ```$ npm install``` - Create a package-lock.json file.
+- ```$ npm install``` - Generates a ```package-lock.json``` file.
 
 
 ### Prettier Setup
 - ```$ npm install --save-dev --save-exact prettier```
-- Create a .prettierrc file
-- Create a .prettierignore file
+- Create a ```.prettierrc``` file
+- Create a ```.prettierignore``` file
 
 ### ESLint Setup
-- ```$ npm install --save-dev eslint```　Create .eslintrc.js file
+- ```$ npm install --save-dev eslint``` - Generates ```.eslintrc.js``` file
 - ```$ npx eslint --init```
 - Add script ```"lint": "eslint --config .eslintrc.js src/**"``` under package.json file
 
@@ -107,3 +108,6 @@ The ```debug``` script allows you to connect a debugger (e.g., VSCode) to your r
   ]
 }
 ```
+> Node: more detailed instructions
+- <https://code.visualstudio.com/docs/editor/debugging>
+- <https://code.visualstudio.com/docs/nodejs/nodejs-debugging>
