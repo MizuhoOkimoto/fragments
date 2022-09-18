@@ -27,6 +27,7 @@ app.use(cors());
 // Use gzip/deflate compression middleware
 app.use(compression());
 
+/* Step 54 - REMOVE
 // Define a simple health check route. If the server is running
 // we'll respond with a 200 OK.  If not, the server isn't healthy.
 app.get('/', (req, res) => {
@@ -43,6 +44,10 @@ app.get('/', (req, res) => {
     version,
   });
 });
+*/
+
+// Define the routes instead
+app.use('/', require('./routes'));
 
 // Add 404 middleware to handle any requests for resources that can't be found
 app.use((req, res) => {
