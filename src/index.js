@@ -23,6 +23,3 @@ process.on('unhandledRejection', (reason, promise) => {
 
 // Start our server
 require('./server');
-
-// It will cause an ESLint error
-const unneededVariable = 'This variable is never used';
