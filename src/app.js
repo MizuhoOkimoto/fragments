@@ -14,7 +14,7 @@ const pino = require('pino-http')({
 });
 
 //Step 61 define authentication
-const authentication = require('./authentication');
+const authentication = require('./authorization');
 
 // Create an express app instance we can use to attach middleware and HTTP routes
 const app = express();
