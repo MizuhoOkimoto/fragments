@@ -39,7 +39,7 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint
-
+jobs:
   unit-tests:
       name: Unit Tests
       runs-on: ubuntu-latest
