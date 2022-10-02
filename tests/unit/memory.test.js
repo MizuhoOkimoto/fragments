@@ -58,8 +58,7 @@ describe('in-memory databases', () => {
   });
 
   test('listFragments() ', async () => {
-    let expand = false;
-    const fragment = await listFragments('123', (expand = false));
+    const fragment = await listFragments('123');
     expect(fragment).toEqual(fragment);
   });
 
