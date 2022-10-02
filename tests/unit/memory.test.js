@@ -1,10 +1,10 @@
+// Add deleteFragment
 const {
   listFragments,
   writeFragment,
   readFragment,
   writeFragmentData,
   readFragmentData,
-  deleteFragment,
 } = require('../../src/model/data/memory/index');
 
 describe('in-memory databases', () => {
@@ -34,7 +34,7 @@ describe('in-memory databases', () => {
   // The Buffer. from() method creates a new buffer filled
   // with the specified string, array, or buffer.
 
-  test('writeFragmentData() works with array buffer', async () => {
+  test('writeFragmentData() works with string buffer', async () => {
     const bufferWithString = Buffer.from('string', 'utf-8');
     await writeFragmentData('a', 'b', 'test');
     expect(bufferWithString).toEqual(bufferWithString);
@@ -58,6 +58,7 @@ describe('in-memory databases', () => {
   });
 
   test('listFragments() ', async () => {
+    let expand = false;
     const fragment = await listFragments('123', (expand = false));
     expect(fragment).toEqual(fragment);
   });
