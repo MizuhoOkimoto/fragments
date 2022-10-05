@@ -1,3 +1,4 @@
+//import { readFragment } from '../../src/model/data/memory';
 // Add deleteFragment
 const {
   listFragments,
@@ -36,30 +37,24 @@ describe('in-memory databases', () => {
 
   test('writeFragmentData() works with string buffer', async () => {
     const bufferWithString = Buffer.from('string', 'utf-8');
-    await writeFragmentData('a', 'b', 'test');
-    expect(bufferWithString).toEqual(bufferWithString);
+    expect(async () => await writeFragmentData('a', 'b', bufferWithString)).not.toThrow();
   });
 
   test('writeFragmentData() works with array buffer', async () => {
     const bufferRaw = Buffer.from([1, 2, 3]);
-    await writeFragmentData('a', 'b', 'test');
-    expect(bufferRaw).toEqual(bufferRaw);
+    expect(async () => await writeFragmentData('a', 'b', bufferRaw)).not.toThrow();
   });
 
   test('readFragmentData() ', async () => {
-    const bufferRaw = Buffer.from([1, 2]);
-    await readFragmentData('a', 'b');
-    expect(bufferRaw).toEqual(bufferRaw);
+    expect(async () => await readFragmentData('a', 'b')).not.toThrow();
+    expect(async () => await readFragmentData('empty fragment')).rejects.toThrow();
   });
 
   test('listFragments() returns an array', async () => {
     const list = await listFragments('a', 'b');
-    expect(list).toEqual([]);
-  });
-
-  test('listFragments() ', async () => {
-    const fragment = await listFragments('123');
-    expect(fragment).toEqual(fragment);
+    const list2 = await listFragments('empty');
+    expect.arrayContaining(list);
+    expect(list2).toEqual([]);
   });
 
   // test('deleteFragment() ', async () => {
