@@ -30,6 +30,7 @@ app.use(cors());
 app.use(compression());
 
 // Set up passport authentication middleware
+// About Passport.js: https://www.kwbtblog.com/entry/2019/05/04/094338
 passport.use(authentication.strategy());
 app.use(passport.initialize());
 

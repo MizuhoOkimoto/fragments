@@ -16,8 +16,13 @@ const {
 
 class Fragment {
   constructor({ id = randomUUID(), ownerId, created, updated, type, size = 0 }) {
-    if (!ownerId || !type) {
-      throw new Error('ownerId and type are required');
+    if (!ownerId) {
+      console.log(ownerId, type);
+      throw new Error('ownerId is required');
+    }
+    if (!type) {
+      console.log(ownerId, type);
+      throw new Error('type is required');
     }
     if (isNaN(size) || typeof size !== 'number' || size < 0) {
       console.log(size);
@@ -26,15 +31,12 @@ class Fragment {
     if (!Fragment.isSupportedType(type)) {
       throw new Error('Type is not supported');
     }
-
     this.id = id;
     this.ownerId = ownerId;
     this.created = created || new Date().toISOString();
     this.updated = updated || new Date().toISOString();
     this.type = type;
     this.size = size;
-
-    //type = contentType.format({type: 'text/plain'});
   }
 
   /**
