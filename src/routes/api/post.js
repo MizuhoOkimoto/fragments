@@ -1,4 +1,5 @@
 const { Fragment } = require('../../model/fragment');
+const apiURL = process.env.API_URL;
 
 module.exports = async (req, res) => {
   try {
@@ -11,8 +12,13 @@ module.exports = async (req, res) => {
     await frag.save();
     await frag.setData(req.body);
     const savedFragment = await Fragment.byId(req.user, frag.id);
-    //const data = await frag.getData(req.user, frag.id);
-    return res.status(200).json({ message: 'ok', fragment: savedFragment });
+
+    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Location
+    // https://www.itra.co.jp/webmedia/http-header.html
+    res.setHeader('Content-Type', frag.type);
+    res.setHeader('Location', apiURL + `/v1/fragments/` + frag.id);
+
+    return res.status(201).json({ message: 'ok', fragment: savedFragment });
     //return res.send(data);
   } catch (error) {
     console.log('Unable to save fragment');
