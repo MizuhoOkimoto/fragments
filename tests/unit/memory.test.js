@@ -1,5 +1,3 @@
-//import { readFragment } from '../../src/model/data/memory';
-// Add deleteFragment
 const {
   listFragments,
   writeFragment,
