@@ -20,7 +20,7 @@ async function getFragmentsInfo(req, res) {
     const id = req.params.id;
     const fragment = await Fragment.byId(req.user, id);
     const data = await fragment.getData();
-    res.status(200).send(data).json(createSuccessResponse({ fragments }));
+    res.status(200).send(data).json(createSuccessResponse({ fragment }));
     //res.status(200).json(createSuccessResponse({ fragments }));
   } catch (error) {
     logger.error('Fragment is not found by id');
