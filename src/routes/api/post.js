@@ -17,7 +17,9 @@ module.exports = async (req, res) => {
     });
     await frag.save();
     await frag.setData(req.body);
-    const savedFragment = await Fragment.byId(req.user, frag.id);
+
+    // FB: This is not necessary, since you already have `frag` from creating it a few lines above
+    //const savedFragment = await Fragment.byId(req.user, frag.id);
 
     logger.debug({ frag }, 'Fragment is created');
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Location
@@ -25,7 +27,7 @@ module.exports = async (req, res) => {
     res.setHeader('Content-Type', frag.type);
     res.setHeader('Location', apiURL + `/v1/fragments/` + frag.id);
 
-    return res.status(201).json(createSuccessResponse({ savedFragment }));
+    return res.status(201).json(createSuccessResponse({ fragment: frag }));
     //return res.send(data);
   } catch (error) {
     logger.error('Unable to save fragment');
