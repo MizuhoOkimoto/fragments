@@ -20,7 +20,6 @@ WORKDIR /app
 # Copy the package.json and package-lock.json files into /app
 # Also able to use a relative path, since my WORKDIR is already set to /app -> COPY package*.json ./
 COPY package*.json /app/
-
 # Copy all files into /app dir and change ownership to node user
 COPY --chown=node:node . /app/
 
@@ -44,6 +43,7 @@ ENV PORT=8080
 # Define for the image by default
 ENV NODE_ENV=production
 
+# Specify working dir
 WORKDIR /app
 
 # Copy the generated dependencies(node_modules). 
@@ -52,6 +52,7 @@ COPY --from=dependencies /app /app/
 # Copy the source code 
 COPY . .
 
+# Before npm start, explicit the user(node) instead of root for security
 USER node
 
 # Start the container by running our server
@@ -60,6 +61,7 @@ CMD npm start
 # Run my service on port 8080
 EXPOSE 8080
 
+# Health Check
 HEALTHCHECK --interval=15s --timeout=30s --start-period=5s --retries=3 \
   CMD curl --fail localhost:8080 || exit 1
 
