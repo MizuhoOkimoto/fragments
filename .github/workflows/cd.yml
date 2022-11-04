@@ -1,7 +1,7 @@
 # Continuous Delivery Workflow
 #
 # This should happen whenever we push a new tag, and we tag an existing
-# commit after we know it's good (e.g., has been tested).
+# commit after we know it's good. (e.g., has been tested)
 #
 # To create a new tag, we also need to update the package.json version:
 #
