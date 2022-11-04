@@ -1,7 +1,7 @@
 // src/routes/api/index.js
 const { Fragment } = require('../../model/fragment');
 const contentType = require('content-type');
-const { getFragments, getFragmentsInfo } = require('./get');
+const { getFragments, getFragmentById, getFragmentsInfo } = require('./get');
 
 /**
  * The main entry-point for the v1 version of the fragments API.
@@ -16,7 +16,8 @@ const router = express.Router();
 // router.get('/fragments/:id', require('./get'));
 
 router.get('/fragments', getFragments);
-router.get('/fragments/:id', getFragmentsInfo);
+router.get('/fragments/:id', getFragmentById);
+router.get('/fragments/:id/info', getFragmentsInfo);
 
 // Other routes will go here later on...
 // Support sending various Content-Types on the body up to 5M in size

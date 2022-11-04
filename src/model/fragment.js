@@ -3,6 +3,7 @@
 const { randomUUID } = require('crypto');
 // Use https://www.npmjs.com/package/content-type to create/parse Content-Type headers
 const contentType = require('content-type');
+var md = require('markdown-it')();
 
 // Functions for working with fragment metadata/data using our DB
 const {
@@ -13,19 +14,20 @@ const {
   listFragments,
   deleteFragment,
 } = require('./data');
+const logger = require('../logger');
 
 class Fragment {
   constructor({ id = randomUUID(), ownerId, created, updated, type, size = 0 }) {
     if (!ownerId) {
-      console.log(ownerId, type);
+      logger.debug(ownerId, type);
       throw new Error('ownerId is required');
     }
     if (!type) {
-      console.log(ownerId, type);
+      logger.debug(ownerId, type);
       throw new Error('type is required');
     }
     if (isNaN(size) || typeof size !== 'number' || size < 0) {
-      console.log(size);
+      logger.debug(size);
       throw new Error('size must be number');
     }
     if (!Fragment.isSupportedType(type)) {
@@ -45,12 +47,18 @@ class Fragment {
    * @param {boolean} expand whether to expand ids to full fragments
    * @returns Promise<Array<Fragment>>
    */
+
+  //  Goes to http://localhost:8080/v1/fragments
+  // Goes to http://localhost:8080/v1/fragments/?expand=1
+  // 1 is true and if empty, expand sets as false
   static async byUser(ownerId, expand = false) {
     try {
       const fragment = await listFragments(ownerId, expand);
       return fragment;
     } catch (err) {
-      console.error(err);
+      //here
+      logger.error({ err }, `Unable to get fragments by user`);
+      //console.error(err);
       return [];
     }
   }
@@ -64,13 +72,17 @@ class Fragment {
   static async byId(ownerId, id) {
     try {
       const fragment = await readFragment(ownerId, id);
-      console.log(fragment);
+      //console.log(fragment);
+      logger.debug({ fragment }, 'BYID'); //Fixed base on the A1 feedback
       if (!fragment) {
         throw new Error('fragment is not there');
       }
+
       return fragment;
     } catch (err) {
-      return Promise.reject(new Error('fragment could not find'));
+      // ??? An async function doesn't need you to add extra Promises around your return/throw statements.  It will happen automatically.
+      throw new Error('fragment could not find');
+      //return Promise.reject(new Error('fragment could not find'));
     }
   }
 
@@ -93,7 +105,7 @@ class Fragment {
       this.updated = new Date().toISOString();
       return writeFragment(this);
     } catch (err) {
-      console.error(err);
+      logger.error({ err }, `Unable to save fragment`);
     }
   }
 
@@ -105,7 +117,7 @@ class Fragment {
     try {
       return readFragmentData(this.ownerId, this.id);
     } catch (err) {
-      console.error(err);
+      logger.error({ err }, `Unable to get fragment data`);
     }
   }
 
@@ -117,7 +129,9 @@ class Fragment {
   async setData(data) {
     try {
       if (data) {
-        this.updated = new Date().toISOString();
+        //Fixed base on the A1 feedback
+        this.save();
+        //this.updated = new Date().toISOString();
         this.size = data.byteLength;
         return await writeFragmentData(this.ownerId, this.id, data);
       } else {
@@ -151,7 +165,7 @@ class Fragment {
    * @returns {Array<string>} list of supported mime types
    */
   get formats() {
-    return ['text/plain'];
+    return ['text/plain', 'text/html', 'text/markdown', 'application/json'];
   }
 
   /**
@@ -160,10 +174,27 @@ class Fragment {
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
   static isSupportedType(value) {
-    if (value === 'text/plain' || value === 'text/plain; charset=utf-8') {
+    if (
+      value === 'text/plain' ||
+      value === 'text/plain; charset=utf-8' ||
+      value === 'text/html' ||
+      value === 'text/html; charset=utf-8' ||
+      value === 'text/markdown' ||
+      value === 'text/markdown; charset=utf-8' ||
+      value === 'application/json'
+    ) {
       return true;
     }
     return false;
+  }
+  static convertFragment(data) {
+    // Convert the data to string ("data": [35, 32, 104, 49])
+    // markdown-it works ONLY with string
+    let convert = md.render(data.toString('utf-8'));
+    // Conver to buffer again and send back to the get.js function
+    convert = Buffer.from(convert, 'utf-8');
+    logger.info({ convert }, 'AFTER CONVERT');
+    return convert;
   }
 }
 

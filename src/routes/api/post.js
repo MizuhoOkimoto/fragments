@@ -24,13 +24,22 @@ module.exports = async (req, res) => {
     logger.debug({ frag }, 'Fragment is created');
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Location
     // https://www.itra.co.jp/webmedia/http-header.html
+
     res.setHeader('Content-Type', frag.type);
     res.setHeader('Location', apiURL + `/v1/fragments/` + frag.id);
 
-    return res.status(201).json(createSuccessResponse({ fragment: frag }));
+    return res
+      .status(201)
+      .json(
+        createSuccessResponse({
+          fragment: frag,
+          Location: apiURL + `/v1/fragments/` + frag.id,
+          'Content-Length': frag.size,
+        })
+      );
     //return res.send(data);
   } catch (error) {
-    logger.error('Unable to save fragment');
+    logger.error({ err, frag }, `Unable to save fragment`);
     //console.log('Unable to save fragment');
     res.status(400).json(createErrorResponse(400, 'Unable to save fragment'));
   }
