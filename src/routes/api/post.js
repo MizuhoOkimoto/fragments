@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
       );
     //return res.send(data);
   } catch (error) {
-    logger.error({ error, fragment }, `Unable to save fragment`);
+    logger.error({ error }, `Unable to save fragment`);
     //console.log('Unable to save fragment');
     res.status(400).json(createErrorResponse(400, 'Unable to save fragment'));
   }
