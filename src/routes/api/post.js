@@ -28,15 +28,13 @@ module.exports = async (req, res) => {
     res.setHeader('Content-Type', frag.type);
     res.setHeader('Location', apiURL + `/v1/fragments/` + frag.id);
 
-    return res
-      .status(201)
-      .json(
-        createSuccessResponse({
-          fragment: frag,
-          Location: apiURL + `/v1/fragments/` + frag.id,
-          'Content-Length': frag.size,
-        })
-      );
+    return res.status(201).json(
+      createSuccessResponse({
+        fragment: frag,
+        Location: apiURL + `/v1/fragments/` + frag.id,
+        'Content-Length': frag.size,
+      })
+    );
     //return res.send(data);
   } catch (error) {
     logger.error({ error }, `Unable to save fragment`);
