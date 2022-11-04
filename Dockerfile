@@ -56,7 +56,7 @@ COPY . .
 USER node
 
 # Start the container by running our server
-CMD npm start
+CMD ["npm start"]
 
 # Run my service on port 8080
 EXPOSE 8080

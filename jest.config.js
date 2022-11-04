@@ -1,4 +1,4 @@
-// This config file will load our env.jest test environment variables 
+// This config file will load our env.jest test environment variables
 // and set various options for how the tests will run
 
 // Get the full path to our env.jest file
