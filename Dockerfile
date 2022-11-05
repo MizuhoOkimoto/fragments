@@ -50,13 +50,14 @@ WORKDIR /app
 # From the 'dependencies' layer and copy the app dir to my current dir
 COPY --from=dependencies /app /app/
 # Copy the source code 
-COPY . .
+# COPY . .
+COPY ./src /app/src
 
 # Before npm start, explicit the user(node) instead of root for security
 USER node
 
 # Start the container by running our server
-CMD ["npm start"]
+CMD ["npm", "start"]
 
 # Run my service on port 8080
 EXPOSE 8080
