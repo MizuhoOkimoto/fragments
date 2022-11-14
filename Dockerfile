@@ -57,6 +57,7 @@ COPY ./src /app/src
 USER node
 
 # Start the container by running our server
+# CMD is the default things when I run this container
 CMD ["npm", "start"]
 
 # Run my service on port 8080
