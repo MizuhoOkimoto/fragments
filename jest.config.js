@@ -16,3 +16,5 @@ module.exports = {
   verbose: true,
   testTimeout: 5000,
 };
+// Tried to test .env file for index.js
+// module.exports = {   setupFiles: ['dotenv/config'] }

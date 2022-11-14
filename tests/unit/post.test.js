@@ -28,4 +28,24 @@ describe('post v1/fragments ', () => {
       .auth('user1@email.com', 'password1');
     expect(res.statusCode).toBe(415);
   });
+
+  // Returns sucess response with correct fragment's content-type
+  test('returns sucess response with correct fragments content-type', async () => {
+    const res = await request(app)
+      .post('/v1/fragments')
+      .send('This is fragment')
+      .set({ 'Content-type': 'text/plain' })
+      .auth('user1@email.com', 'password1');
+      expect(res.type).toContain('text/plain');
+  });
+
+  
+  // TODO: Test 400 bad request
+  // test('authenticated users are able to post fragments', async () => {
+  //   const res = await request(app)
+  //     .post('/v1/fragments/invalid')
+  //     .send()
+  //     .auth('user1@email.com', 'password1');
+  //   expect(res.statusCode).toBe(400);
+  // });
 });
