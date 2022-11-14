@@ -77,7 +77,6 @@ class Fragment {
       if (!fragment) {
         throw new Error('fragment is not there');
       }
-
       return fragment;
     } catch (err) {
       // ??? An async function doesn't need you to add extra Promises around your return/throw statements.  It will happen automatically.

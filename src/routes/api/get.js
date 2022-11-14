@@ -15,7 +15,7 @@ async function getFragments(req, res) {
     fragments = await Fragment.byUser(req.user, req.query.expand);
     res.status(200).json(createSuccessResponse({ fragments: fragments }));
   } catch (err) {
-    res.status(404).json(createErrorResponse(404, 'Not able to get fragments'));
+    res.status(401).json(createErrorResponse(401, 'unauthenticated'));
   }
 }
 
@@ -41,20 +41,18 @@ async function getFragmentById(req, res) {
     const data = await fragment.getData(); //not metadata
     logger.info({ data }, 'AFTER GETDATA');
 
+    // FB: You need to set the content-type header before you send the Buffer, so it matches the fragment's type
     res.header('Content-Type', fragment.type);
     // console.log(fragment.type);
     //res.status(200).json(createSuccessResponse({ fragment }));
-    // You need to set the content-type header before you send the Buffer, so it matches the fragment's type
 
     if (ext === '.html') {
       // call convert Function
-      /// Buffer -> STRING -> Convert -> Buffer
-
+      // Buffer -> STRING -> Convert -> Buffer
       let convert = Fragment.convertFragment(data);
       res.header('Content-Type', 'text/html');
       return res.status(200).send(convert);
     }
-
     res.status(200).send(data);
   } catch (error) {
     logger.error({ error }, 'Fragment is not found by id: ');
