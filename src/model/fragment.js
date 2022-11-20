@@ -48,7 +48,7 @@ class Fragment {
    * @returns Promise<Array<Fragment>>
    */
 
-  //  Goes to http://localhost:8080/v1/fragments
+  // Goes to http://localhost:8080/v1/fragments
   // Goes to http://localhost:8080/v1/fragments/?expand=1
   // 1 is true and if empty, expand sets as false
   static async byUser(ownerId, expand = false) {

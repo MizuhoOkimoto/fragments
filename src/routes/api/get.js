@@ -2,7 +2,6 @@
 const { Fragment } = require('../../model/fragment');
 const { createSuccessResponse, createErrorResponse } = require('../../response');
 const logger = require('../../logger');
-//const { query } = require('express');
 
 var path = require('path');
 
@@ -43,6 +42,7 @@ async function getFragmentById(req, res) {
 
     // FB: You need to set the content-type header before you send the Buffer, so it matches the fragment's type
     res.header('Content-Type', fragment.type);
+    res.setHeader('Location', 'http://' + apiURL + '/v1/fragments/' + fragment.id);
     // console.log(fragment.type);
     //res.status(200).json(createSuccessResponse({ fragment }));
 
