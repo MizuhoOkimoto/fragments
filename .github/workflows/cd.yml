@@ -86,9 +86,9 @@ jobs:
           container-name: fragments
           # Use the image we just built and pushed to ECR for this tag
           image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPO }}:${{ env.VERSION_TAG }}
-          #environment-variables:
-          aws_cognito_pool_id: ${{ secrets.AWS_COGNITO_POOL_ID }}
-          aws_cognito_client_id: ${{ secrets.AWS_COGNITO_CLIENT_ID }}
+          environment-variables:
+            AWS_COGNITO_POOL_ID: ${{ secrets.AWS_COGNITO_POOL_ID }}
+            AWS_COGNITO_CLIENT_ID: ${{ secrets.AWS_COGNITO_CLIENT_ID }}
           #  LOG_LEVEL=info
           #  NODE_ENV=production
           #  ...
