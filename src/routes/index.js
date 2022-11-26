@@ -1,6 +1,10 @@
 const { createSuccessResponse } = require('../response');
 const express = require('express');
 
+// Get the server's hostname and add it to the JSON we return for the health check
+// https://nodejs.org/api/os.html#oshostname
+const { hostname } = require('os');
+
 // version and author from package.json
 const { version, author } = require('../../package.json');
 
@@ -30,6 +34,8 @@ router.get('/', (req, res) => {
       author,
       githubUrl: 'https://github.com/MizuhoOkimoto/fragments',
       version,
+      // Include the hostname in the response
+      hostname: hostname(),
     })
   );
 });
