@@ -89,7 +89,7 @@ jobs:
           environment-variables: |
             AWS_COGNITO_POOL_ID=${{ secrets.AWS_COGNITO_POOL_ID }}
             AWS_COGNITO_CLIENT_ID=${{ secrets.AWS_COGNITO_CLIENT_ID }}
-            API_URL=${{ secrets.AWS_COGNITO_CLIENT_ID }}
+            AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
             LOG_LEVEL=info
             NODE_ENV=production
           #  ...
