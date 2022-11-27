@@ -25,17 +25,18 @@ module.exports = async (req, res) => {
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Location
     // https://www.itra.co.jp/webmedia/http-header.html
 
-    res.setHeader('Content-Type', frag.type);
+    // FB from A2: The code below is wrong - I have to fix the post unit test!
+    // Name of the test: returns sucess response with correct fragments content-type
+    //res.setHeader('Content-Type', frag.type);
     res.setHeader('Location', apiURL + `/v1/fragments/` + frag.id);
-
     return res.status(201).json(
       createSuccessResponse({
         fragment: frag,
-        Location: apiURL + `/v1/fragments/` + frag.id,
-        'Content-Length': frag.size,
+        // FB from A2: Remove these, they are wrong(2 lines below this)
+        //Location: apiURL + `/v1/fragments/` + frag.id,
+        //'Content-Length': frag.size,
       })
     );
-    //return res.send(data);
   } catch (error) {
     logger.error({ error }, `Unable to save fragment`);
     //console.log('Unable to save fragment');

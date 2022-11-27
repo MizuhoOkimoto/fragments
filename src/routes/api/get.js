@@ -11,7 +11,7 @@ var path = require('path');
 async function getFragments(req, res) {
   try {
     let fragments;
-    fragments = await Fragment.byUser(req.user, req.query.expand);
+    fragments = await Fragment.byUser(req.user, req.query.expand === '1');
     res.status(200).json(createSuccessResponse({ fragments: fragments }));
   } catch (err) {
     res.status(401).json(createErrorResponse(401, 'unauthenticated'));
@@ -56,7 +56,7 @@ async function getFragmentById(req, res) {
     res.status(200).send(data);
   } catch (error) {
     logger.error({ error }, 'Fragment is not found by id: ');
-    return res.status(400).json(createErrorResponse('Fragment is not found by id'));
+    return res.status(404).json(createErrorResponse('Fragment is not found by id'));
   }
 }
 
@@ -65,11 +65,12 @@ async function getFragmentById(req, res) {
 async function getFragmentsInfo(req, res) {
   try {
     const id = req.params.id;
+    console.log(id, 'THIS IS ID IN THE GET INFO');
     const fragment = await Fragment.byId(req.user, id);
 
-    //res.status(200).json(createSuccessResponse({ fragment }));
+    res.status(200).json(createSuccessResponse({ fragment }));
     // FB: You need to set the content-type header before you send the Buffer, so it matches the fragment's type
-    res.status(200).send({ status: 'ok', fragment });
+    //res.status(200).send({ status: 'ok', fragment });
   } catch (error) {
     logger.error('Fragment is not found by id');
     return res.status(400).json(createErrorResponse('Fragment is not found by id'));
