@@ -24,7 +24,6 @@ jsonpath "$.status" == "ok"
 jsonpath "$.fragment.id" == {{fragment1_id}}
 jsonpath "$.fragment.type" == "application/json"
 
-
 # 4.POST a second Markdown fragment to http://localhost:8080 as the same authorized user. The fragment's body should be the Markdown value, DynamoDB is **great**..
 POST http://localhost:8080/v1/fragments
 Content-Type: text/markdown
