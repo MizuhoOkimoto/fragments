@@ -180,7 +180,10 @@ class Fragment {
       value === 'text/html; charset=utf-8' ||
       value === 'text/markdown' ||
       value === 'text/markdown; charset=utf-8' ||
-      value === 'application/json'
+      value === 'image/png' ||
+      value === 'image/jpeg' ||
+      value === 'image/webp' ||
+      value === 'image/gif'
     ) {
       return true;
     }

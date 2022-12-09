@@ -12,7 +12,7 @@ services:
     build: .
     # Environment variables to use
     environment:
-      - API_URL=http://localhost:8080
+      # - API_URL=http://localhost:8080
       - HTPASSWD_FILE=tests/.htpasswd
       - LOG_LEVEL=${LOG_LEVEL:-debug}
       # NOTE: we use Docker's internal network to the localstack container
