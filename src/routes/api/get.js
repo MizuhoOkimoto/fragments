@@ -55,7 +55,7 @@ async function getFragmentById(req, res) {
     }
     res.status(200).send(data);
   } catch (error) {
-    logger.error({ error }, 'Fragment is not found by id: ');
+    logger.error({ error }, 'Fragment is not found by id ');
     return res.status(404).json(createErrorResponse('Fragment is not found by id'));
   }
 }
@@ -72,8 +72,8 @@ async function getFragmentsInfo(req, res) {
     // FB: You need to set the content-type header before you send the Buffer, so it matches the fragment's type
     //res.status(200).send({ status: 'ok', fragment });
   } catch (error) {
-    logger.error('Fragment is not found by id');
-    return res.status(400).json(createErrorResponse('Fragment is not found by id'));
+    logger.error('Fragment info is not found by id');
+    return res.status(400).json(createErrorResponse('Fragment info is not found by id'));
   }
 }
 

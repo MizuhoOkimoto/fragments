@@ -27,19 +27,19 @@ module.exports = async (req, res) => {
 
     // FB from A2: The code below is wrong - I have to fix the post unit test!
     // Name of the test: returns sucess response with correct fragments content-type
-    //res.setHeader('Content-Type', frag.type);
+    res.setHeader('Content-Type', frag.type);
     res.setHeader('Location', apiURL + `/v1/fragments/` + frag.id);
+
     return res.status(201).json(
       createSuccessResponse({
         fragment: frag,
         // FB from A2: Remove these, they are wrong(2 lines below this)
-        //Location: apiURL + `/v1/fragments/` + frag.id,
-        //'Content-Length': frag.size,
+        Location: apiURL + `/v1/fragments/` + frag.id,
+        'Content-Length': frag.size,
       })
     );
   } catch (error) {
-    logger.error({ error }, `Unable to save fragment`);
-    //console.log('Unable to save fragment');
-    res.status(400).json(createErrorResponse(400, 'Unable to save fragment'));
+    logger.error({ error }, `Unable to post fragment`);
+    res.status(400).json(createErrorResponse(400, 'Unable to post fragment'));
   }
 };

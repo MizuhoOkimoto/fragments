@@ -1,5 +1,5 @@
 # Dockerfile is for building a Docker Image, a docker-compose.yml file is for running Docker Containers.
-# NOTE:if you make changes to your fragments source code, and want to rebuild your Docker image, 
+# NOTE:if you make changes to your fragments source code, and want to rebuild your Docker image,
 # you can use the --build flag to force a rebuild: docker-compose up --build
 
 services:

@@ -116,6 +116,7 @@ async function readFragmentData(ownerId, id) {
   try {
     // Get the object from the Amazon S3 bucket. It is returned as a ReadableStream.
     const data = await s3Client.send(command);
+    logger.info('Read fragment data');
     // Convert the ReadableStream to a Buffer
     return streamToBuffer(data.Body);
   } catch (err) {

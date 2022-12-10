@@ -72,7 +72,7 @@ class Fragment {
   static async byId(ownerId, id) {
     try {
       const fragment = await readFragment(ownerId, id);
-      //console.log(fragment);
+      console.log(fragment);
       logger.debug({ fragment }, 'BYID'); //Fixed base on the A1 feedback
       if (!fragment) {
         throw new Error('fragment is not there');
@@ -180,7 +180,10 @@ class Fragment {
       value === 'text/html; charset=utf-8' ||
       value === 'text/markdown' ||
       value === 'text/markdown; charset=utf-8' ||
-      value === 'application/json'
+      value === 'image/png' ||
+      value === 'image/jpeg' ||
+      value === 'image/webp' ||
+      value === 'image/gif'
     ) {
       return true;
     }

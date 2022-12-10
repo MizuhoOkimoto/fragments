@@ -1,8 +1,9 @@
 # 1.POST a new JSON fragment to http://localhost:8080 as an authorized user. The fragment's body should be the JSON value, { "service": "DynamoDB" }.
 POST http://localhost:8080/v1/fragments
 Content-Type: application/json
-[BasicAuth]
-user1@email.com:password1
+#[BasicAuth]
+#user1@email.com:password1
+Authorization: Basic dXNlcjFAZW1haWwuY29tOnBhc3N3b3JkMQ==
 { "service": "DynamoDB" }
 
 # 2.Confirm that the server returns a 201, and capture the Location header value and the fragment's id in variables named fragment1_url and fragment1_id.
@@ -31,7 +32,10 @@ Content-Type: text/markdown
 user1@email.com:password1
 ```DynamoDB is **great**```
 
-# 5.Confirm that the server returns a 201, and once again capture the Location header value and the second id in variables named fragment2_url and fragment2_id.
+# 5.Confirm that the server returns a 201, and once again captu
+
+
+re the Location header value and the second id in variables named fragment2_url and fragment2_id.
 HTTP/1.1 201
 [Captures]
 fragment2_url: header "Location"
