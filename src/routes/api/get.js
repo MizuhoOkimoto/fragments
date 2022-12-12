@@ -110,8 +110,8 @@ async function getFragmentById(req, res) {
           break;
       }
 
-      //return res.status(200).send(converted);
-      return res.status(200).json(createSuccessResponse(converted));
+      return res.status(200).send(converted);
+      //return res.status(200).json(createSuccessResponse(converted));
     }
     res.header('Content-Type', fragment.type);
     res.status(200).send(data);

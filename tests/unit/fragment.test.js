@@ -67,9 +67,7 @@ describe('Fragment class', () => {
     });
 
     test('invalid types throw', () => {
-      expect(
-        () => new Fragment({ ownerId: '1234', type: 'invalid/invalid', size: 1 })
-      ).toThrow();
+      expect(() => new Fragment({ ownerId: '1234', type: 'invalid/invalid', size: 1 })).toThrow();
     });
 
     test('valid types can be set', () => {
