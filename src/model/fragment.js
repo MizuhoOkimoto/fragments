@@ -131,7 +131,7 @@ class Fragment {
     try {
       if (data) {
         //Fixed base on the A1 feedback
-        this.save();
+        await this.save();
         //this.updated = new Date().toISOString();
         this.size = data.byteLength;
         return await writeFragmentData(this.ownerId, this.id, data);

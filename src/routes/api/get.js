@@ -49,7 +49,7 @@ async function getFragmentById(req, res) {
     logger.info({ fragment }, 'fragment');
 
     const data = await fragment.getData(); //not metadata
-    //logger.info({ data }, 'GOT DATA FROM FRAGMENT');
+    logger.info({ data }, 'GOT DATA FROM DATABASE');
 
     // FB: You need to set the content-type header before you send the Buffer, so it matches the fragment's type
 
@@ -114,8 +114,8 @@ async function getFragmentById(req, res) {
       return res.status(200).json(createSuccessResponse(converted));
     }
     res.header('Content-Type', fragment.type);
-    //res.status(200).send(data);
-    res.status(200).json(createSuccessResponse(data));
+    res.status(200).send(data);
+    //res.status(200).json(createSuccessResponse(data));
   } catch (error) {
     logger.error(error + ' Fragment is not found by id: ');
     return res.status(404).json(createErrorResponse('Fragment is not found by id'));

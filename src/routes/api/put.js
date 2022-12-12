@@ -16,7 +16,8 @@ module.exports = async (req, res) => {
     logger.debug(req.user);
 
     // Make a new Fragment based on the id parameter
-    const frag = new Fragment(await Fragment.byId(req.headers.ownerid, req.params.id));
+    //const frag = new Fragment(await Fragment.byId(req.headers.ownerid, req.params.id));
+    const frag = new Fragment(await Fragment.byId(req.user, req.params.id));
     //frag.type = req.get('Content-Type');
     logger.debug(frag);
     logger.debug(req);

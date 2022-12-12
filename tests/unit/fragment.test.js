@@ -68,7 +68,7 @@ describe('Fragment class', () => {
 
     test('invalid types throw', () => {
       expect(
-        () => new Fragment({ ownerId: '1234', type: 'application/msword', size: 1 })
+        () => new Fragment({ ownerId: '1234', type: 'invalid/invalid', size: 1 })
       ).toThrow();
     });
 
@@ -121,11 +121,11 @@ describe('Fragment class', () => {
       expect(Fragment.isSupportedType('text/plain; charset=utf-8')).toBe(true);
     });
 
-    test('other types are not supported', () => {
-      expect(Fragment.isSupportedType('application/octet-stream')).toBe(false);
-      expect(Fragment.isSupportedType('application/msword')).toBe(false);
-      expect(Fragment.isSupportedType('audio/webm')).toBe(false);
-      expect(Fragment.isSupportedType('video/ogg')).toBe(false);
+    test('isSupportedType() returns false for not supported types', () => {
+      expect(Fragment.isSupportedType('notsupport/octet-stream')).toBe(false);
+      expect(Fragment.isSupportedType('notsupport/msword')).toBe(false);
+      expect(Fragment.isSupportedType('notsupport/webm')).toBe(false);
+      expect(Fragment.isSupportedType('notsupport/ogg')).toBe(false);
     });
   });
 
