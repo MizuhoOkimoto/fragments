@@ -39,7 +39,6 @@ describe('post v1/fragments ', () => {
   //     expect(res.type).toContain('text/plain');
   // });
 
-  
   // TODO: Test 400 bad request
   // test('authenticated users are able to post fragments', async () => {
   //   const res = await request(app)

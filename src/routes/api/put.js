@@ -5,16 +5,21 @@ const { createSuccessResponse, createErrorResponse } = require('../../response')
 const apiURL = process.env.API_URL;
 
 module.exports = async (req, res) => {
+  logger.debug(req);
+  logger.debug(Buffer.isBuffer(req.body));
   if (!Buffer.isBuffer(req.body)) {
     return res.status(415).json(createErrorResponse(415, 'Unsupported Content Type'));
   }
   try {
     logger.info('PUT fragment');
-    console.log(req.user, req.get('Content-type'));
+    logger.debug('THIS IS RESPONSE', res);
+    logger.debug(req.user);
 
     // Make a new Fragment based on the id parameter
-    const frag = new Fragment(Fragment.byId(req.user, req.params.id));
-    frag.type = req.get('Content-Type');
+    const frag = new Fragment(await Fragment.byId(req.headers.ownerid, req.params.id));
+    //frag.type = req.get('Content-Type');
+    logger.debug(frag);
+    logger.debug(req);
     await frag.setData(req.body);
     await frag.save();
 
@@ -39,8 +44,8 @@ module.exports = async (req, res) => {
       })
     );
   } catch (error) {
-    logger.error({ error }, `Unable to save fragment`);
+    logger.error({ error }, `Unable to upate fragment`);
     //console.log('Unable to save fragment');
-    res.status(400).json(createErrorResponse(400, 'Unable to save fragment'));
+    res.status(400).json(createErrorResponse(400, 'Unable to update fragment'));
   }
 };

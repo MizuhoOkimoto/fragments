@@ -34,6 +34,12 @@ app.use(compression());
 passport.use(authentication.strategy());
 app.use(passport.initialize());
 
+// It supports different type of fragments
+// app.use(express.json());
+// app.use(express.text());
+// app.use(express.urlencoded({ extended: true }));
+// app.use('/uploads', express.static('./src/uploads'));
+
 // Define the routes instead
 app.use('/', require('./routes'));
 

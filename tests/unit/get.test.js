@@ -1,3 +1,5 @@
+// TODO: You need more test cases for your GET routes.  For example, when ?expand=1,
+// when converting Markdown to HTML you should compare the body returned with what you expect, etc.
 const request = require('supertest');
 const app = require('../../src/app');
 //const { readFragment } = require('../../src/model/data');

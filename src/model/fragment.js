@@ -4,6 +4,7 @@ const { randomUUID } = require('crypto');
 // Use https://www.npmjs.com/package/content-type to create/parse Content-Type headers
 const contentType = require('content-type');
 var md = require('markdown-it')();
+const sharp = require('sharp');
 
 // Functions for working with fragment metadata/data using our DB
 const {
@@ -113,6 +114,7 @@ class Fragment {
    * @returns Promise<Buffer>
    */
   getData() {
+    logger.info('Inside Fragment->getData()');
     try {
       return readFragmentData(this.ownerId, this.id);
     } catch (err) {
@@ -164,7 +166,17 @@ class Fragment {
    * @returns {Array<string>} list of supported mime types
    */
   get formats() {
-    return ['text/plain', 'text/html', 'text/markdown', 'application/json'];
+    return [
+      'text/plain',
+      'text/html',
+      'text/markdown',
+      'application/json',
+      'image/png',
+      'image/jpg',
+      'image/jpeg',
+      'image/gif',
+      'image/webp',
+    ];
   }
 
   /**
@@ -174,26 +186,37 @@ class Fragment {
    */
   static isSupportedType(value) {
     if (
-      value === 'text/plain' ||
-      value === 'text/plain; charset=utf-8' ||
-      value === 'text/html' ||
-      value === 'text/html; charset=utf-8' ||
-      value === 'text/markdown' ||
-      value === 'text/markdown; charset=utf-8' ||
-      value === 'application/json'
+      value.startsWith('text/') ||
+      value.startsWith('application/') ||
+      value.startsWith('image/')
     ) {
       return true;
     }
     return false;
   }
-  static convertFragment(data) {
-    // Convert the data to string ("data": [35, 32, 104, 49])
-    // markdown-it works ONLY with string
-    let convert = md.render(data.toString('utf-8'));
-    // Conver to buffer again and send back to the get.js function
-    convert = Buffer.from(convert, 'utf-8');
-    logger.info({ convert }, 'AFTER CONVERT');
-    return convert;
+
+  static async convertFragment(data, ext) {
+    if (ext === '.png' || ext === '.jpeg' || ext === '.jpg') {
+      //logger.info({ ext }, 'THIS IS IMAGE');
+      //logger.info({ data }, 'buffer inside image');
+
+      //Removing the dot from ext ".png" => "png"
+      ext = ext.substring(1);
+      data = await sharp(data).toFormat(ext).toBuffer();
+      return data;
+    }
+
+    if (ext === '.md' || ext === '.html') {
+      logger.info({ ext }, 'IM A TEXT');
+      // Convert the data to string ("data": [35, 32, 104, 49])
+      // markdown-it works ONLY with string
+      let convert = md.render(data.toString('utf-8'));
+      // Convert to buffer again and send back to the get.js function
+      convert = Buffer.from(convert, 'utf-8');
+
+      //logger.info({ convert }, 'TEXT CONVERTED');
+      return convert;
+    }
   }
 }
 

@@ -58,7 +58,9 @@ USER node
 
 # Start the container by running our server
 # CMD is the default things when I run this container
+# TODO: Fifure out how to install curl and use it here
 CMD ["npm", "start"]
+#CMD ["node", "src/index.js"]
 
 # Run my service on port 8080
 EXPOSE 8080

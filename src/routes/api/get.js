@@ -1,13 +1,13 @@
 // src/routes/api/get.js
+
 const { Fragment } = require('../../model/fragment');
 const { createSuccessResponse, createErrorResponse } = require('../../response');
 const logger = require('../../logger');
-
 var path = require('path');
 
-/**
- * Get a list of fragments for the current user
- */
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Get a list of fragments for the current user
+
 async function getFragments(req, res) {
   try {
     let fragments;
@@ -18,7 +18,9 @@ async function getFragments(req, res) {
   }
 }
 
-// TODO: application/octet-stream? Check it again!
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// GET FRAGMENT BY ID
+
 async function getFragmentById(req, res) {
   try {
     //id 657557646474hfh
@@ -32,36 +34,97 @@ async function getFragmentById(req, res) {
     // Get only id from parameter
     const id = path.basename(baseName, ext);
     logger.info({ id }, 'ID');
-    logger.info({ ext }, 'PATH');
+    logger.info({ ext }, 'EXT');
 
-    const fragment = await Fragment.byId(req.user, id);
+    const user = req.user;
+    logger.info({ user }, 'USER');
+
+    logger.info({ id }, 'ID');
+
+    //*****
+    //Create a new fragment based on the id
+    //otherwise cannot call getData()
+    //*****
+    const fragment = new Fragment(await Fragment.byId(req.user, id));
     logger.info({ fragment }, 'fragment');
 
     const data = await fragment.getData(); //not metadata
-    logger.info({ data }, 'AFTER GETDATA');
+    //logger.info({ data }, 'GOT DATA FROM FRAGMENT');
 
     // FB: You need to set the content-type header before you send the Buffer, so it matches the fragment's type
-    res.header('Content-Type', fragment.type);
+
     //res.setHeader('Location', 'http://' + apiURL + '/v1/fragments/' + fragment.id);
     // console.log(fragment.type);
     //res.status(200).json(createSuccessResponse({ fragment }));
 
-    if (ext === '.html') {
+    if (ext) {
+      logger.info('INSIDE GET: /:id.ext');
       // call convert Function
       // Buffer -> STRING -> Convert -> Buffer
-      let convert = Fragment.convertFragment(data);
-      res.header('Content-Type', 'text/html');
-      return res.status(200).send(convert);
+      // await needed
+      const converted = await Fragment.convertFragment(data, ext);
+      logger.info({ converted }, 'converted');
+
+      // TODO: Check this again
+      const type = ext.substring(1);
+
+      logger.info({ type }, 'TYPE');
+
+      switch (type) {
+        case 'html':
+          res.header('Content-Type', 'text/html');
+          break;
+        case 'md':
+          res.header('Content-Type', 'text/markdown');
+          break;
+
+        case 'plain':
+          res.header('Content-Type', 'text/plain');
+          break;
+
+        case 'json':
+          res.header('Content-Type', 'application/json');
+          break;
+
+        case 'png':
+          res.header('Content-Type', 'image/png');
+          break;
+
+        case 'jpg':
+          res.header('Content-Type', 'image/jpg');
+          break;
+
+        case 'jpeg':
+          res.header('Content-Type', 'image/jpeg');
+          break;
+
+        case 'gif':
+          res.header('Content-Type', 'image/gif');
+          break;
+
+        case 'webp':
+          res.header('Content-Type', 'image/webp');
+          break;
+
+        default:
+          break;
+      }
+
+      //return res.status(200).send(converted);
+      return res.status(200).json(createSuccessResponse(converted));
     }
-    res.status(200).send(data);
+    res.header('Content-Type', fragment.type);
+    //res.status(200).send(data);
+    res.status(200).json(createSuccessResponse(data));
   } catch (error) {
-    logger.error({ error }, 'Fragment is not found by id: ');
+    logger.error(error + ' Fragment is not found by id: ');
     return res.status(404).json(createErrorResponse('Fragment is not found by id'));
   }
 }
 
-// This is A2
-// I will need to change inside the function
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// GET FRAGMENT INFO
+
 async function getFragmentsInfo(req, res) {
   try {
     const id = req.params.id;
@@ -76,6 +139,7 @@ async function getFragmentsInfo(req, res) {
     return res.status(400).json(createErrorResponse('Fragment is not found by id'));
   }
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports.getFragments = getFragments;
 module.exports.getFragmentById = getFragmentById;
