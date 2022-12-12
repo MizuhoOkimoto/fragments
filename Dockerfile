@@ -1,6 +1,6 @@
 ## Stage 0: Install the base dependencies
 # Specifies the parent (or base) image to use as a starting point for our own image. #To get SHA -> docker pull node:16.17.0 to make sure
-FROM node:16.17.0@sha256:a5d9200d3b8c17f0f3d7717034a9c215015b7aae70cb2a9d5e5dae7ff8aa6ca8 AS dependencies
+FROM node:16-alpine3.15@sha256:9598b4e253236c8003d4e4b1acde80a6ca781fc231a7e670ecc2f3183c94ea5e AS dependencies
 
 # Define some metadata about my image. The LABEL instruction adds key=value pairs with arbitrary metadata about my image.
 LABEL maintainer="Mizuho Okimoto <mokimoto@myseneca.ca>" \
