@@ -172,7 +172,7 @@ describe('GET /fragments/:id.ext', () => {
       .post('/v1/fragments/')
       .set('Content-type', 'image/jpg')
       .auth('user1@email.com', 'password1')
-      .send(fs.readFileSync(`${__dirname}/test_image_conversion/testpic.jpg`));
+      .send(fs.readFileSync(`${__dirname}/image/testpic.jpg`));
     const res = await request(app)
       .get(`/v1/fragments/${createRes.body.fragment.id}.jpg`)
       .auth('user1@email.com', 'password1');
@@ -186,7 +186,7 @@ describe('GET /fragments/:id.ext', () => {
       .post('/v1/fragments/')
       .set('Content-type', 'image/jpg')
       .auth('user1@email.com', 'password1')
-      .send(fs.readFileSync(`${__dirname}/test_image_conversion/testpic.jpg`));
+      .send(fs.readFileSync(`${__dirname}/image/testpic.jpg`));
     const res = await request(app)
       .get(`/v1/fragments/${createRes.body.fragment.id}.gif`)
       .auth('user1@email.com', 'password1');
@@ -199,7 +199,7 @@ describe('GET /fragments/:id.ext', () => {
       .post('/v1/fragments/')
       .set('Content-type', 'image/jpg')
       .auth('user1@email.com', 'password1')
-      .send(fs.readFileSync(`${__dirname}/test_image_conversion/testpic.jpg`));
+      .send(fs.readFileSync(`${__dirname}/image/testpic.jpg`));
     const res = await request(app)
       .get(`/v1/fragments/${createRes.body.fragment.id}.webp`)
       .auth('user1@email.com', 'password1');

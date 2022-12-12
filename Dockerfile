@@ -53,18 +53,18 @@ COPY --from=dependencies /app /app/
 # COPY . .
 COPY ./src /app/src
 
+# Health Check
+HEALTHCHECK --interval=15s --timeout=30s --start-period=5s --retries=3 \
+  CMD curl --fail localhost:8080 || exit 1
+
 # Before npm start, explicit the user(node) instead of root for security
 USER node
 
 # Start the container by running our server
 # CMD is the default things when I run this container
 # TODO: Fifure out how to install curl and use it here
-CMD ["npm", "start"]
-#CMD ["node", "src/index.js"]
-
-# Health Check
-HEALTHCHECK --interval=15s --timeout=30s --start-period=5s --retries=3 \
-  CMD curl --fail localhost:8080 || exit 1
+#CMD ["npm", "start"]
+CMD ["node", "src/index.js"]
 
 # Run my service on port 8080
 EXPOSE 8080
