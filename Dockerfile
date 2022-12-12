@@ -62,11 +62,9 @@ USER node
 CMD ["npm", "start"]
 #CMD ["node", "src/index.js"]
 
-# Run my service on port 8080
-EXPOSE 8080
-
 # Health Check
 HEALTHCHECK --interval=15s --timeout=30s --start-period=5s --retries=3 \
   CMD curl --fail localhost:8080 || exit 1
 
-
+# Run my service on port 8080
+EXPOSE 8080
